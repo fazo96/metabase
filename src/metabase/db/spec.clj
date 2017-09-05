@@ -38,3 +38,16 @@
           :subname (str "//" host ":" port "/" db)
           :delimiters "`"}
          (dissoc opts :host :port :db)))
+
+(defn as400
+  "Create a database specification for a AS400 database. Opts should include keys
+  for :db, :user, and :password. You can also optionally set host and port.
+  Delimiters are automatically set to \"`\"."
+  [{:keys [host port db]
+    :or {host "localhost", port 446, db ""}
+    :as opts}]
+  (merge {:classname "com.ibm.as400.access.AS400JDBCDriver" ; must be in classpath
+          :subprotocol "as400"
+          :subname (str "//" host ":" port "/" db)
+          :delimiters "`"}
+         (dissoc opts :host :port :db)))
